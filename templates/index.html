@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Test Trends</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      .pass {
+        height: 20px;
+        width: 20px;
+        background-color: green;
+        margin: 2px;
+        border-radius: 4px;
+        display: inline-flex;
+      }
+      .fail {
+        height: 20px;
+        width: 20px;
+        background-color: red;
+        margin: 2px;
+        border-radius: 4px;
+        display: inline-flex;
+      }
+    </style>
+  </head>
+  <body class="m-3">
+    <h1 class="mb-3">{{ project }}</h1>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="col-sm-2" scope="col">Test File</th>
+          <th class="col-sm-1" scope="col">Test Name</th>
+          <th scope="col">Test Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for test_file in results.keys() %}
+        <tr>
+          <td>{{ results[test_file]["test_file_name"] }}</td>
+          <td>{{ results[test_file]["test_name"] }}</td>
+          <td>
+            {% for trend in results[test_file]["trends"] %} {% if
+            trend["test_result"] == 'success' %}
+            <div
+              class="pass"
+              data-bs-toggle="tooltip"
+              title='{{trend["test_run_id"]}} - {{ trend["duration"] }}s'
+            ></div>
+            {% elif trend["test_result"] == 'failure' %}
+            <div
+              class="fail"
+              data-bs-toggle="tooltip"
+              title='{{trend["test_run_id"]}} - {{ trend["duration"] }}s'
+            ></div>
+            {% endif %} {% endfor %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
